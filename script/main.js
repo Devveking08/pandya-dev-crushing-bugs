@@ -24,7 +24,13 @@ function changeBGImage() {
 	// button we clicked on and putting it at the end of the image name (0, 1, 2, 3)
 	// and updating the background-image style of the puzzle board element.
 
-	// bug fix #2 should go here. it's at most 3 lines of JS code.
+	   // Remove puzzle pieces from drop zones
+	   dropZones.forEach(zone => {
+        while (zone.firstChild) {
+            zone.removeChild(zone.firstChild);
+        }
+    });
+
 	puzzleBoard.style.backgroundImage = `url(images/backGround${this.id}.jpg)`;
 }
 
@@ -45,11 +51,15 @@ function handleDragOver(e) {
 function handleDrop(e) { 
 	e.preventDefault();
 	console.log('dropped something on me');
-	// bug fix #1 should go here, and it's at most 3 lines of JS code
+	
 
 	// this line is going to move the dragged piece from the left side of the board
 	// into whatever drop zone we choose. appendChild means "add element to the container"
-	this.appendChild(draggedPiece);
+	
+    // Only allow one piece in each drop zone
+    if (!this.firstChild) {
+        this.appendChild(draggedPiece);
+    }
 }
 // step 2
 // event handling always goes at the bottom => 
